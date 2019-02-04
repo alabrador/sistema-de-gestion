@@ -1,0 +1,55 @@
+{% extends 'base.html' %} {% block content %}
+<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">Editar beneficiario</h1>
+    </div>
+    {% include 'partials/messages.html' %}
+    <form method="post">
+        {%csrf_token%}
+        <div class="form-group">
+            <label for="cedula">Cedula</label>
+            <input value="{{beneficiario.cedula}}" type="text" class="form-control" id="cedula" name="cedula" required>
+        </div>
+        <div class="form-group">
+            <label for="nombres">Nombres</label>
+            <input value="{{beneficiario.nombres}}" type="text" class="form-control" id="nombres" name="nombres" required>
+        </div>
+        <div class="form-group">
+            <label for="cargo">Cargo</label>
+            <select class="form-control" id="cargo" name="cargo">
+                <option selected>{{beneficiario.cargo}}</option>
+                {% if cargo %} {% for c in cargo %}
+                <option>{{c.nombre}}</option>
+                {% endfor %} {% endif %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="gerencia">Gerencia</label>
+            <select class="form-control" id="gerencia" name="gerencia">
+                {% if gerencias %}
+                <option selected value="{{beneficiario.gerencia.id}}">{{beneficiario.gerencia}}</option>
+                {% for g in gerencias %}
+                <option value="{{g.id}}">{{g.nombre}}</option>
+                {% endfor %} {% endif %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="status">Status</label>
+            <select class="form-control" id="status" name="status">
+                {% if beneficiario.status %}
+                <option selected value=1>Activo</option>
+                <option value=0>Inactivo</option>
+                {% else %}
+                <option value=1>Activo</option>
+                <option selected value=0>Inactivo</option>
+                {% endif %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="observacion">Observacion</label>
+            <input maxlength="255" value="{{beneficiario.observacion}}" type="text" class="form-control" id="observacion" name="observacion"></input>
+        </div>
+        <button type="submit" class="btn btn-sm btn-primary">Guardar</button>
+    </form>
+</main>
+{% endblock %}
